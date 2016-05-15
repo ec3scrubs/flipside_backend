@@ -27,8 +27,11 @@ def sentiment_request(line):
   r = requests.get('https://api.havenondemand.com/1/api/sync/analyzesentiment/v1?text=' + request_line[:-1] + '&apikey=' + api_key)
   
   # Debug
-  print request_line[:-1]
-  print r.text
+  # print request_line[:-1]
+  # print r.json()
+
+  print r.json()['aggregate']['score']
+  return r.json()['aggregate']['score']
 
 # Debug
 # sentiment_request("the quick brown fox jumps over the lazy dog!")
@@ -52,21 +55,19 @@ def search_query(query):
     f = file("dl/output/" + str(worst_review[0]), "r")
     worst_desc = f.readlines()
 
-    print best_desc, worst_desc
+    # print best_desc, worst_desc
 
     res = []
     res.append({
       "type": "good",
       "description": best_desc,
-      "sentiment_score": sentiment_request(best_desc),
-      
+      "sentiment_score": sentiment_request(best_desc),      
       })
 
     res.append({
       "type": "good",
       "description": worst_desc,
-      "sentiment_score": sentiment_request(worst_desc)
-      
+      "sentiment_score": sentiment_request(worst_desc)      
       })
 
   # Don't bother filtering
@@ -118,7 +119,7 @@ def get_query():
   results = search_query(query)
 
 
-  print query  
+  # print query  
   return jsonify({'sentiments': sentiments})
 
 
