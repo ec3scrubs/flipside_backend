@@ -34,9 +34,11 @@ def get_sentiments():
 
 @app.route('/sentiment/api/query', methods=['POST'])
 def get_query():  
-  json_dict = request.get_json()
-  print json_dict
-  return "hello"
+  incoming_request = dict(request.form)
+  query = str(incoming_request['param'][0])
+  print query  
+  return jsonify({'sentiments': sentiments})
+
 
 
 
