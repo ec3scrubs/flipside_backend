@@ -29,8 +29,8 @@ def sentiment_request(line):
   # Debug
   # print request_line[:-1]
   # print r.json()
+  # print r.json()['aggregate']['score']
 
-  print r.json()['aggregate']['score']
   return r.json()['aggregate']['score']
 
 # Debug
@@ -69,6 +69,9 @@ def search_query(query):
       "description": worst_desc,
       "sentiment_score": sentiment_request(worst_desc)      
       })
+
+    print res
+    return res
 
   # Don't bother filtering
   # print best_review, worst_review
@@ -117,8 +120,7 @@ def get_query():
 
   # Call my function
   results = search_query(query)
-
-
+  
   # print query  
   return jsonify({'sentiments': sentiments})
 
