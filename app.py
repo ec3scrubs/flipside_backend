@@ -1,5 +1,6 @@
 #!flask/bin/python
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
+from flask.ext.cors import CORS
 import requests
 import search
 
@@ -7,6 +8,7 @@ import search
 ## Flask app
 ###############################
 app = Flask(__name__)
+CORS(app)
 
 sentiments = [
   {
@@ -29,6 +31,13 @@ sentiments = [
 @app.route('/sentiment/api/', methods=['GET'])
 def get_sentiments():
   return jsonify({'sentiments': sentiments})
+
+@app.route('/sentiment/api/query', methods=['POST'])
+def get_query():  
+  json_dict = request.get_json()
+  print json_dict
+  return "hello"
+
 
 
 if __name__ == '__main__':
