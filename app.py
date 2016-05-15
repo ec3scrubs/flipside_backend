@@ -60,13 +60,15 @@ def search_query(query):
     res = []
     res.append({
       "type": "good",
-      "description": best_desc,
+      "rating": str(best_desc[0]),
+      "description": str(best_desc[1]),
       "sentiment_score": sentiment_request(best_desc),      
       })
 
     res.append({
-      "type": "good",
-      "description": worst_desc,
+      "type": "bad",
+      "rating": str(worst_desc[0]),
+      "description": str(worst_desc[1]),
       "sentiment_score": sentiment_request(worst_desc)      
       })
 
@@ -80,7 +82,7 @@ def search_query(query):
   #   return "The best and worst reviews are similar to each other."
   #   # todo: set this up as a POST response
 
-search_query("chicken rice")
+# search_query("chicken rice")
 
   
 
@@ -109,6 +111,8 @@ sentiments = [
 
 ]
 
+# [{'rating': '5.0\n', 'sentiment_score': 0.822182975408912, 'type': 'good', 'description': "The line's always pretty long, but this is probably the best chicken rice for the price. If you're not up for waiting, I personally think the other chicken rice stalls in the area serve comparable fare."}, {'rating': '4.0\n', 'sentiment_score': 0.6962662464771089, 'type': 'bad', 'description': 'Very good chicken rice here. Try the half chicken and rice. Be sure not to let the cool chicken broth with the half chicken go to waste. I think it tastes best poured onto the rice. Love the garlic chili sauce.\n'}]
+
 @app.route('/sentiment/api/', methods=['GET'])
 def get_sentiments():
   return jsonify({'sentiments': sentiments})
@@ -120,9 +124,11 @@ def get_query():
 
   # Call my function
   results = search_query(query)
-  
+  print results
+
   # print query  
-  return jsonify({'sentiments': sentiments})
+  # return jsonify({'sentiments': sentiments})
+  return jsonify({'sentiments': results})
 
 
 if __name__ == '__main__':
